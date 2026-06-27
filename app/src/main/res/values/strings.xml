@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Music Announcer</string>
+    <string name="service_name">Music Announcer Service</string>
+</resources>
