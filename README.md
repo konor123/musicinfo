@@ -5,7 +5,7 @@ An Android app that announces the artist and song title of currently playing mus
 ## Version
 
 - Current version: `1.1.0`
-- Debug APK artifact: `MusicInfo-v1.1.0-debug.apk`
+- Release APK artifact: `MusicInfo-v1.1.0-release.apk`
 
 ## Features
 
@@ -48,11 +48,13 @@ An Android app that announces the artist and song title of currently playing mus
 ## Build
 
 ```powershell
-& "C:\Users\USER\.gemini\antigravity\scratch\tools\gradle-8.4\bin\gradle.bat" assembleDebug
+& "C:\Users\USER\.gemini\antigravity\scratch\tools\gradle-8.4\bin\gradle.bat" assembleRelease
 ```
 
-The versioned debug APK is generated at:
+The versioned release APK is generated at:
 
 ```text
-app/build/outputs/apk/debug/MusicInfo-v1.1.0-debug.apk
+app/build/outputs/apk/release/MusicInfo-v1.1.0-release.apk
 ```
+
+> On Windows, if the project path contains non-ASCII characters, build the release APK from an ASCII-only path such as `C:\dev\musicinfo`.
