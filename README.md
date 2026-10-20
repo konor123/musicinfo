@@ -4,8 +4,8 @@ An Android app that announces the artist and song title of currently playing mus
 
 ## Version
 
-- Current version: `1.1.0`
-- Release APK artifact: `MusicInfo-v1.1.0-release.apk`
+- Current version: `1.1.1`
+- Release APK artifact: `MusicInfo-v1.1.1-release.apk`
 
 ## Features
 
@@ -54,7 +54,7 @@ An Android app that announces the artist and song title of currently playing mus
 The versioned release APK is generated at:
 
 ```text
-app/build/outputs/apk/release/MusicInfo-v1.1.0-release.apk
+app/build/outputs/apk/release/MusicInfo-v1.1.1-release.apk
 ```
 
 > On Windows, if the project path contains non-ASCII characters, build the release APK from an ASCII-only path such as `C:\dev\musicinfo`.

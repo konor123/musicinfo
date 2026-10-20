@@ -3,6 +3,16 @@ plugins {
     id 'org.jetbrains.kotlin.android'
 }
 
+// 서명 키 결정 (pocket-locker와 동일 방식):
+//   1) CI: KEYSTORE_PATH 환경변수 (GitHub Secrets에서 복원한 고정 키)
+//   2) 로컬: 프로젝트 루트의 release.keystore (기존 방식)
+//   3) 둘 다 없으면 debug 키 (로컬 개발용 폴백)
+// 서명이 바뀌면 기존 설치 위에 업데이트 설치가 실패하므로 키를 고정한다.
+def ciKeystorePath = System.getenv("KEYSTORE_PATH")
+def localKeystoreFile = file("${rootDir}/release.keystore")
+def usePinnedKey = ciKeystorePath != null
+def useLocalKey = !usePinnedKey && localKeystoreFile.exists()
+
 android {
     namespace 'com.example.musicannouncer'
     compileSdk 34
@@ -11,24 +21,40 @@ android {
         applicationId "com.example.musicannouncer"
         minSdk 24
         targetSdk 34
-        versionCode 2
-        versionName "1.1.0"
+        versionCode 3
+        versionName "1.1.1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     signingConfigs {
-        release {
-            storeFile file("${project.rootDir}/release.keystore")
-            storePassword "android"
-            keyAlias "android"
-            keyPassword "android"
+        pinned {
+            if (usePinnedKey) {
+                storeFile file(ciKeystorePath)
+                storePassword System.getenv("KEYSTORE_PASSWORD")
+                keyAlias System.getenv("KEY_ALIAS")
+                keyPassword System.getenv("KEY_PASSWORD")
+            }
+        }
+        legacy {
+            if (useLocalKey) {
+                storeFile localKeystoreFile
+                storePassword "android"
+                keyAlias "android"
+                keyPassword "android"
+            }
         }
     }
 
     buildTypes {
         release {
-            signingConfig signingConfigs.release
+            if (usePinnedKey) {
+                signingConfig signingConfigs.pinned
+            } else if (useLocalKey) {
+                signingConfig signingConfigs.legacy
+            } else {
+                signingConfig signingConfigs.debug
+            }
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
