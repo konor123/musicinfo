@@ -42,7 +42,7 @@ jobs:
       - name: Check tag matches versionName
         run: |
           TAG="${GITHUB_REF#refs/tags/}"
-          VER=$(grep 'versionName' app/build.gradle | sed 's/.*"\([^"]*\)".*/\1/')
+          VER=$(grep -m1 'versionName "' app/build.gradle | sed 's/.*"\([^"]*\)".*/\1/')
           if [ "$TAG" != "v$VER" ]; then
             echo "태그($TAG)와 versionName(v$VER)이 다릅니다"
             exit 1
